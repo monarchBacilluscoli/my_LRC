@@ -1,12 +1,19 @@
 from PIL import Image  # 用于处理图像
 import matplotlib.pyplot as plt  # 用于处理绘图
 import numpy as np  # 用于操作矩阵
-import utility as ut  # 自己打包的一些工具函数
+import utility as ut  # !在此选择归一化函数
+from utility import normalize as normalize
 
 N = 40  # 图片总类数
 Pn = 10  # 每类图片的总数
 Pi = 5  # 每类图片训练集张数
 Pj = Pn - Pi  # 每类图片的预测集张数
+
+# 重采样设置
+# ? 重采样有没有个啥标准，这个样子比例关系很难弄啊
+#! pillow中图像size表示是2-tuple: (width, height)
+#! AT&T：(92, 112)
+downsampling_size = (23, 28)
 
 predictor = []  # 用于存储predictor的数组
 
@@ -21,10 +28,11 @@ while i < N:
         # 读取一张图片
         path = path1+str(j+1)+".pgm"  # 第二层路径循环图片文件
         im = Image.open(path)
+        im = im.resize(downsampling_size, Image.BOX)  # 重采样
         # 将该图片插入到该类数组中
         ims.append(list(im.getdata()))
         # 标准化
-        ut.normalize_gray(ims[j])
+        normalize(ims[j])
         j += 1
     # 将ims转换为predictor并插入到数组中
     p = np.matrix(ims[0])  # 先插入头一个图片
@@ -56,9 +64,10 @@ while i < N:  # 外循环类别
     while j < Pj:  # 内层循环图片
         path = path1+str(j+Pi+1)+".pgm"  # 跳过前面Pi张训练图片
         test_im = Image.open(path)
+        test_im = test_im.resize(downsampling_size, Image.BOX)  # 重采样
         y = list(test_im.getdata())
         # 对y进行标准化
-        ut.normalize_gray(y)
+        normalize(y)
         # 转化为matrix并转置
         y = np.matrix(y).T
         dis = []

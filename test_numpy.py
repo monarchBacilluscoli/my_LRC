@@ -1,6 +1,7 @@
 # numpy测试代码
 
 import numpy as np
+import utility
 
 a = [1, 2, 3]
 b = [4, 5, 6]
@@ -24,3 +25,13 @@ print(mt3)
 
 mt0 = np.array(a)
 print(mt0)
+
+matrix1 = np.matrix([1,2,3])
+matrix2 = np.matrix([3,2,3])
+m = matrix1-matrix2
+print(np.sqrt(np.sum(np.square(m))))
+
+list1 = [[1,2,3],[4,5,6]]
+list1[1][2] = 0
+utility.normalize(list1[0])
+print(list1)

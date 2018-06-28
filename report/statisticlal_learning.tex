@@ -4,6 +4,7 @@
 \usepackage{amsmath} % 数学啊啊支持
 \usepackage{makeidx} % 参考文献编号支持？
 \usepackage{graphicx} % 图片支持
+\usepackage{booktabs}
 
 \graphicspath{{figure/}}
 
@@ -94,17 +95,45 @@ LCR算法所基于的最重要的工作在文献【】中进行了描述。其�
     Decision=\arg{\underbrace{\min}_j}d^{j^{(n)}}\quad n=1,2,\dots,M.
 \end{equation}
 \section{实验结果}\label{sec-3}
-算法重现之后对该算法进行了一些实验，对比了其中一些具体设置所能导致的差异，使用的测试数据为AT&T人脸数据库。
+算法重现之后对该算法进行了一些实验，实验并非如原文献中出于对比不同算法识别准确度，而是想对比了其中一些具体的设置以及使用的处理方法如重采样等所能导致的算法运行的结果差异并期望能够找到最优的方法组合。使用的测试数据为AT\&T面部图像数据库。最终结果表明对算法的重现的结果与文献中所展示结果基本没有差异，达到了重现的要求；另外进行的有关下采样方法选择、下采样后的图像空间维度等等对算法表现的影响将在下文详述。
+\subsection{AT\&T面部数据库}
+AT\&T面部数据库\footnote{http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html}是由剑桥大学AT\&T研究室发布的一个人类面部图像数据集，该数据集包含1992年1月-1994年1月在AT\&T研究室拍摄的用于进行人脸识别实验的一组照片。该组照片包含40个不同的人每人10张不同角度与表情的图像，拍摄环境均为暗色背景，拍摄角度变化也较小。其照片分辨率为92\(\times\)112。
+\subsection{实验方案}
+实验按照文献【】所提出的评价方案进行设置，即前5张图像作为训练集而后五张图像作为测试图像，文献【】中进行实验的另外一种“leave-one-out”的评价方案没有进行实验。\par
+实验中对算法的不同环节部署了不同的设置并进行了对比，以下是进行对比的环节。
+\subsubsection{标准化方法}
+本实验使用的标准化方法均为min-max标准化方法，公式如下：
+\begin{equation}\label{eq-14}
+    a^*=\frac{x-min}{max-min}
+\end{equation}
+\par
+在参数选择的过程中，公式\eqref{eq-14}中的\(min\)和\(max\)的值在初次进行实验时采用的是基于样本数据即根据当前图片灰度值中的最大/最小值确定的，但是在接下来的代码编写过程中意识到该方式可能有些不妥，于是考虑256位深的灰度图像的原生灰度范围对\(min\)和\(max\)进行定义，即\(min=0,max=255\)。之后进行了有关实验对比确认是否会存在差异。
+\subsubsection{下采样方法}
 \begin{figure}[h]
     \centering
-    \includegraphics[scale = 0.6]{RA_Method.eps}
-    \caption{使用不同类型归一化方法的识别精度差异}\label{fig-1}
+    \includegraphics[scale = 0.7]{Filter.eps}
+    \caption{不同滤波器效果比较}\label{fig-filter_comparison}
 \end{figure}
-\begin{figure}[h]
+本实验中使用的下采样方法是由Pillow——即Python PIL图像处理库的一个广泛使用的分支——提供的图像缩放滤波器（如图\ref{fig-filter_comparison}所示）中的三种：NEAREST、BOX以及LANCZOS。三种方法的原理如下：\par
+NEAREST即最近点采样滤波器，它进行图像重采样的方式是选择最近的一个像素而完全不管其余的像素。\par
+BOX滤波即盒式滤波，对需要保留的像素位置周围一个箱形范围内的像素进行平均，在下采样中其机制可以由下述公式简单表示：
+\begin{equation}\label{eq-15}
+    p_k=\left({\sum_{i\in win(k)}{I_i}}\right)/s^2
+\end{equation}
+式中s为缩放比例。具体关于非整数倍采样的重叠区域如何进行处理等具体细节不在此详述。\par
+LANCZOS滤波则引入了正弦函数对周围像素的权重进行差异化处理用于合成目标像素，对与中心像素距离逐渐增大的像素采用逐渐减小的权重，故相比盒式滤波质量要高一些。\par
+几种滤波方式的比较如图\ref{fig-filter_comparison}所示。
+\subsubsection{下采样比例}
+
+下采样比例直接造成最终的训练图片和测试图片的分辨率差异，即影响留存信息的比例以及来源。如前文所述，较之于下采样方式，下采样比例也就是留存数据的维度对于图像识别精度可能更为关键。所以本次实验采用不同的下采样比例进行了多次实验。所使用的比例变化由认为设定，尽可能地反映变化趋势。
+\subsection{实验结果及分析}
+\begin{table}[h]
     \centering
-    \includegraphics[scale = 0.6]{RA_Class.eps}
-    \caption{啥玩意}\label{fig-2}
-\end{figure}
+    \includegraphics{RA_Method.eps}
+    \caption{不同设置下的LRC识别精度差异}\label{tab-downsampling_factor}
+\end{table}
+基于前文所述的设置差异，最终结果如图\ref{fig-result_method}所示。
+由图中可以明显看出
 
 \section{总结与展望}\label{sec-4}
 
@@ -112,7 +141,7 @@ LCR算法所基于的最重要的工作在文献【】中进行了描述。其�
 你可以使用XeLaTeX、LuaLaTeX 或upLaTeX 编译，也可以使用(pdf)LaTeX 编译。
 推荐使用XeLaTeX 或LuaLaTeX 编译。
 \appendix
-\include{code} % 附录A appendixA.tex
+\include{appendix} % 附录 appendix.tex
 
 \bibliography{...} % 利用BibTeX 工具生成参考文献
 \printindex % 利用makeindex 工具生成索引

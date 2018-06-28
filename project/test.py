@@ -8,3 +8,4 @@ for i in sys.argv:
 print("Python路径为",sys.path,'\n')
 print_str("hhahhahahhah")
 dir()
+

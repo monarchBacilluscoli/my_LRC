@@ -1,20 +1,20 @@
 # Fdb version 3
-["bibtex statisticlal_learning"] 1530715708 "statisticlal_learning.aux" "statisticlal_learning.bbl" "statisticlal_learning" 1530715715
-  "appendix.aux" 1530715710 1053 10df7d7f9f6fab9ac5c1c864e6aa5f4f ""
+["bibtex statisticlal_learning"] 1530754477 "statisticlal_learning.aux" "statisticlal_learning.bbl" "statisticlal_learning" 1530754523
+  "appendix.aux" 1530754472 1053 10df7d7f9f6fab9ac5c1c864e6aa5f4f ""
   "f:/Texlive/2018/texmf-dist/bibtex/bst/base/unsrt.bst" 1528616379 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "reference.bib" 1530362938 18986 1fc4f3c8ef0ec1a41e30718184c61f8f ""
-  "statisticlal_learning.aux" 1530715710 2996 ee7584e1aae49ed9992440e3cbb80697 ""
+  "reference.bib" 1530751303 18986 1fc4f3c8ef0ec1a41e30718184c61f8f ""
+  "statisticlal_learning.aux" 1530754472 2996 ee7584e1aae49ed9992440e3cbb80697 ""
   (generated)
   "statisticlal_learning.blg"
   "statisticlal_learning.bbl"
-["makeindex statisticlal_learning.idx"] 1530715695 "statisticlal_learning.idx" "statisticlal_learning.ind" "statisticlal_learning" 1530715715
-  "statisticlal_learning.idx" 1530715710 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex statisticlal_learning.idx"] 1530754462 "statisticlal_learning.idx" "statisticlal_learning.ind" "statisticlal_learning" 1530754523
+  "statisticlal_learning.idx" 1530754471 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "statisticlal_learning.ind"
   "statisticlal_learning.ilg"
-["pdflatex"] 1530715709 "h:/Statistical_learning_project/report/statisticlal_learning.tex" "statisticlal_learning.pdf" "statisticlal_learning" 1530715715
-  "appendix.aux" 1530715710 1053 10df7d7f9f6fab9ac5c1c864e6aa5f4f ""
-  "appendix.tex" 1530715413 7362 222b37e85cf33cb87f9d3bf9ba1c7f27 ""
+["pdflatex"] 1530754470 "h:/Statistical_learning_project/report/statisticlal_learning.tex" "statisticlal_learning.pdf" "statisticlal_learning" 1530754523
+  "appendix.aux" 1530754472 1053 10df7d7f9f6fab9ac5c1c864e6aa5f4f ""
+  "appendix.tex" 1530754448 7362 222b37e85cf33cb87f9d3bf9ba1c7f27 ""
   "c:/Windows/Fonts/msyh.ttc" 1523489648 19647736 ff2e53a6131130a07589812ea5b5b0d0 ""
   "c:/Windows/Fonts/simfang.ttf" 1515349860 10578152 37e609660535d9b42db7ba1cc80eff88 ""
   "c:/Windows/Fonts/simhei.ttf" 1512332880 9753388 6abc0fcfbaa40600f9cecca3afeb3aa7 ""
@@ -382,14 +382,14 @@
   "figure/Filter.eps" 1530177699 2054578 a6762783de13244d910fc574750861c1 ""
   "figure/RA_Class.eps" 1529978877 32359 95b1ce1e9fbffb2a934e709039090a3b ""
   "figure/RA_Method.pdf" 1530315401 18937 4316078444e3a3c9e74786f6e8d72612 ""
-  "h:/Statistical_learning_project/report/statisticlal_learning.tex" 1530715687 27428 06a5e61fc83b745283f372d51e6d0a80 ""
-  "statisticlal_learning.aux" 1530715710 2996 ee7584e1aae49ed9992440e3cbb80697 ""
-  "statisticlal_learning.bbl" 1530715709 2958 b16d6676df51635ee215575461826aff "bibtex statisticlal_learning"
-  "statisticlal_learning.ind" 1530715696 0 d41d8cd98f00b204e9800998ecf8427e "makeindex statisticlal_learning.idx"
-  "statisticlal_learning.tex" 1530715687 27428 06a5e61fc83b745283f372d51e6d0a80 ""
+  "h:/Statistical_learning_project/report/statisticlal_learning.tex" 1530754522 27428 06a5e61fc83b745283f372d51e6d0a80 ""
+  "statisticlal_learning.aux" 1530754472 2996 ee7584e1aae49ed9992440e3cbb80697 ""
+  "statisticlal_learning.bbl" 1530754477 2958 b16d6676df51635ee215575461826aff "bibtex statisticlal_learning"
+  "statisticlal_learning.ind" 1530754468 0 d41d8cd98f00b204e9800998ecf8427e "makeindex statisticlal_learning.idx"
+  "statisticlal_learning.tex" 1530754522 27428 06a5e61fc83b745283f372d51e6d0a80 ""
   (generated)
-  "statisticlal_learning.log"
-  "statisticlal_learning.aux"
   "appendix.aux"
-  "statisticlal_learning.idx"
   "statisticlal_learning.pdf"
+  "statisticlal_learning.aux"
+  "statisticlal_learning.idx"
+  "statisticlal_learning.log"

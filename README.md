@@ -9,3 +9,5 @@ Additionally, I have used the AT&T face dataset in this project:\
 http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html
 
 Programming language is Python.
+
+There may be nothing to say.

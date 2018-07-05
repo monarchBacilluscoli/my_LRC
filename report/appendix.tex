@@ -1,8 +1,198 @@
-\begin{appendices}
-    \section{代码}
-    some text in Appendix A
-    \subsection{算法代码}
-    \subsection{图表输出}
-    \section{详细实验数据}
-    some text in Appendix B
-\end{appendices}
+\appendixpage
+\section{代码}
+\subsection{算法代码}
+\begin{verbatim}
+from __future__ import division  # 将整数/整数=整数的除法改为真正的除法
+from PIL import Image  # 用于处理图像
+import matplotlib.pyplot as plt  # 用于处理绘图
+import numpy as np  # 用于操作矩阵
+from utility import normalize_gray as normalize  # !在此选择归一化函数
+
+# 全局参数
+N = 40  # 图片总类数
+Pn = 10  # 每类图片的总数
+Pi = 5  # 每类图片训练集张数
+Pj = Pn - Pi  # 每类图片的预测集张数
+
+#! pillow中图像size表示是2-tuple: (width, height)
+#! AT&T：(92, 112)
+downsampling_sizes = [(round(92/40), round(112/40)), (round(92/35), round(112/35)), 
+    (round(92/30), round(112/30)), (round(92/25), round(112/25)), (round(92/20), round(112/20)), 
+    (round(92/14), round(112/14)), (round(92/10), round(112/10)), (round(92/5), round(112/5))]  # 不同轮次的重采样数据
+sampling_type = Image.LANCZOS  # 重采样类型
+
+overall_info = {}  # 不同轮次的结果存储
+
+# 以不同重采样尺寸循环运行
+for downsampling_size in downsampling_sizes:
+
+    # 循环实验参数
+    predictor = []  # 用于存储predictor的数组
+    info = {'total_recognition_accuracy': 0.}  # 存储结果
+
+    # 构建N个带有Pi个图片的predictor的数组
+    i = 0
+    while i < N:
+        j = 0
+        path1 = "orl_faces\\s"+str(i+1)+"\\"  # 第一层路径循环文件夹
+        ims = []  # 初始化临时存储图片变量
+        # 读取一组图片到list中
+        while j < Pi:
+            # 读取一张图片
+            path = path1+str(j+1)+".pgm"  # 第二层路径循环图片文件
+            im = Image.open(path)
+            im.show()
+            im = im.resize(downsampling_size, sampling_type)  # 重采样
+            # 将该图片插入到该类数组中
+            ims.append(list(im.getdata()))
+            # 标准化
+            normalize(ims[j])
+            j += 1
+        # 将ims转换为predictor并插入到数组中
+        p = np.matrix(ims[0])  # 先插入头一个图片
+        j = 1  # 此时j已经有一个
+        # 将剩下的插入临时predictor
+        while j < Pi:
+            p = np.vstack((p, ims[j]))
+            j += 1
+        # 将predictor转置之后插入list
+        predictor.append(p.T)
+        i = i+1
+
+    # 创建一个N*Pj大小的存储隶属类别的数组
+    inner = []
+    result = []
+    # 创建一个待拷贝的长度为Pj的内链表
+    for i in range(Pj):
+        inner.append(0)
+    # 以内链表进行拷贝创建隶属类别链表
+    for i in range(N):
+        result.append(inner.copy())
+
+    # 将所有测试图片求取隶属类别
+    i = 0
+    while i < N:  # 外循环类别
+        path1 = "orl_faces\\s"+str(i+1)+"\\"
+        j = 0
+        while j < Pj:  # 内层循环图片
+            path = path1+str(j+Pi+1)+".pgm"  # 跳过前面Pi张训练图片
+            test_im = Image.open(path)
+            test_im = test_im.resize(downsampling_size, sampling_type)  # 重采样
+            y = list(test_im.getdata())
+            # 对y进行标准化
+            normalize(y)
+            # 转化为matrix并转置
+            y = np.matrix(y).T
+            dis = []
+            for p in predictor:
+                beta = np.dot(np.linalg.inv(np.dot(p.T, p)), np.dot(p.T, y))
+                yhat = np.dot(p, beta)
+                dis.append(np.sqrt(np.sum(np.square(y-yhat))))
+            # 找到最小距离所在的索引位置，将之视作该图片从属的类别，记录之
+            result[i][j] = dis.index(min(dis))+1
+            j += 1
+        i += 1
+    # print(result)
+
+    recognition_accuracy = []
+    # 处理识别结果
+    type_index = 1
+    for type in result:
+        recognition_accuracy.append(0.)
+        for rec in type:
+            if rec == type_index:
+                recognition_accuracy[type_index-1] += 1
+        recognition_accuracy[type_index -1] = recognition_accuracy[type_index-1]/Pj
+        info['total_recognition_accuracy'] += recognition_accuracy[type_index-1]
+        type_index += 1
+    info['total_recognition_accuracy'] /= N  # 平均识别率
+    # print("平均识别率：", recognition_accuracy)
+    # print("总识别率：", info['total_recognition_accuracy'])
+    run_key = int(downsampling_size[0]*downsampling_size[1])
+    overall_info[run_key] = info['total_recognition_accuracy']
+
+print(overall_info)
+\end{verbatim}
+\subsection{图表输出}
+\begin{verbatim}
+# 不同设置下算法表现折线图
+r_box = ...
+r_lanczos = ...
+r_nearest = ...
+r_box_minmax_norm = ...
+r_lanczos_minmax_norm = ...
+r_nearest_minmax_norm = ...
+
+fig = plt.figure()
+
+plt.plot(r_box.keys(),r_box.values(),'o-', label='BOX+256')
+plt.plot(r_box_minmax_norm.keys(),r_box_minmax_norm.values(),'bo--', label='BOX+data')
+plt.plot(r_lanczos.keys(),r_lanczos.values(),'*-', 
+label = 'LANCZOS+256')
+plt.plot(r_lanczos_minmax_norm.keys(),r_lanczos_minmax_norm.values(),'c*--', label = 'LANCZOS+data')
+plt.plot(r_nearest.keys(),r_nearest.values(),'^-', 
+label = 'NEAREST+256')
+plt.plot(r_nearest_minmax_norm.keys(),r_nearest_minmax_norm.values(),'g^--', label = 'NEAREST+data')
+
+plt.xlabel('Feature Dimension')
+plt.ylabel('Recognition Accuracy')
+plt.title('Recognition Accuracy with Respect to Feature Dimension')
+plt.axis([0,400,0,1])
+
+plt.legend()
+plt.grid()
+plt.savefig("RA_Method.pdf",format = "pdf")
+plt.show()
+
+# 使用表现最好的设置选项输出的每一组结果）
+# 原始结果
+i_result = ...
+# 求出每组的成功率
+i_recognition_accuracy = []
+i_type_index = 1
+for type in i_result:
+    i_recognition_accuracy.append(0.)
+    for i_rec in type:
+        if i_rec == i_type_index:
+            i_recognition_accuracy[i_type_index-1] += 1
+    i_recognition_accuracy[i_type_index -1] = i_recognition_accuracy[i_type_index-1]/Pj
+    i_type_index += 1
+print(i_recognition_accuracy)
+
+xl = np.arange(1,N+1)
+
+plt.bar(xl,i_recognition_accuracy)
+plt.xlabel('Picture Class Number')
+plt.ylabel('Recognition Accuracy')
+plt.title("Recognition Accuracy of Each Class")
+plt.grid(axis = 'y')
+plt.savefig('RA_Class.eps',format = 'eps')
+plt.show()
+\end{verbatim}
+
+
+\section{详细实验数据}
+\begin{table}[htbp]
+    \centering
+    \caption{不同设置下的LRC识别精度差异——详细实验结果}\label{tab-detailed_results}
+    \begin{tabular}{ccccccccc}
+        \toprule
+        & \multicolumn{8}{c}{\textbf{Feature dimension}} \\
+        \cmidrule{2-9}
+        & 6 & 9 & 12 & 16 & 30 & 56 & 99 & 396 \\
+        \midrule
+        NEAREST+data & 0.07 & 0.22 & 0.375 & 0.525 & 0.680 & 0.805 & 0.845 & 0.870 \\
+        \midrule
+        NEAREST+256 & 0.05 & 0.240 & 0.375 & 0.605 & 0.710 & 0.820 & 0.850 & 0.875 \\
+        \midrule
+        BOX+data & 0.085 & 0.580 & 0.750 & 0.830 & 0.885 & 0.915 & 0.915 & 0.910 \\
+        \midrule
+        BOX+256 & 0.160 & 0.710 & 0.790 & 0.845 & 0.890 & \textbf{0.925} & 0.920 & 0.905 \\
+        \midrule
+        LANCZOS+data & 0.065 & 0.585 & 0.770 & 0.835 & 0.894 & 0.905 & 0.910 & 0.900 \\
+        \midrule
+        LANCZOS+256 & 0.100 & 0.675 & 0.815 & 0.885 & 0.920 & 0.915 & 0.915 & 0.905 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+

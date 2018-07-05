@@ -3,6 +3,10 @@ from PIL import Image  # 用于处理图像
 import matplotlib.pyplot as plt  # 用于处理绘图
 import numpy as np  # 用于操作矩阵
 from utility import normalize_gray as normalize  # !在此选择归一化函数
+import time
+import sys
+
+# print(sys.path)
 
 # 全局参数
 N = 40  # 图片总类数
@@ -20,9 +24,11 @@ downsampling_sizes = [(round(92/40), round(112/40)), (round(92/30), round(112/30
 overall_info = {}  # 不同轮次的结果存储
 sampling_type = Image.BOX  # 重采样类型
 
+time_start=time.time()
+
 # 以不同重采样尺寸循环运行
 # for downsampling_size in downsampling_sizes:
-downsampling_size = (round(92/20), round(112/20))
+downsampling_size = (round(92/5), round(112/5))
 # 循环实验参数
 predictor = []  # 用于存储predictor的数组
 info = {'total_recognition_accuracy': 0.}  # 存储结果
@@ -31,7 +37,7 @@ info = {'total_recognition_accuracy': 0.}  # 存储结果
 i = 0
 while i < N:
     j = 0
-    path1 = "orl_faces\\s"+str(i+1)+"\\"  # 第一层路径循环文件夹
+    path1 = sys.path[0]+"\\orl_faces\\s"+str(i+1)+"\\"  # 第一层路径循环文件夹
     ims = []  # 初始化临时存储图片变量
     # 读取一组图片到list中
     while j < Pi:
@@ -68,7 +74,7 @@ for i in range(N):
 # 将所有测试图片求取隶属类别
 i = 0
 while i < N:  # 外循环类别
-    path1 = "orl_faces\\s"+str(i+1)+"\\"
+    path1 = sys.path[0]+"\\orl_faces\\s"+str(i+1)+"\\"
     j = 0
     while j < Pj:  # 内层循环图片
         path = path1+str(j+Pi+1)+".pgm"  # 跳过前面Pi张训练图片
@@ -89,6 +95,10 @@ while i < N:  # 外循环类别
         j += 1
     i += 1
 print(result)
+
+time_end=time.time()
+
+print('时间'+str(time_end-time_start))
 
 #     recognition_accuracy = []
 #     # 处理识别结果

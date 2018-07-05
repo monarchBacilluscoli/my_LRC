@@ -1,0 +1,82 @@
+\begin{thebibliography}{10}
+
+\bibitem{b1}
+I.T. Jolliffe.
+\newblock {\em Principal Component Analysis}.
+\newblock 1986.
+
+\bibitem{598228}
+P.~N. Belhumeur, J.~P. Hespanha, and D.~J. Kriegman.
+\newblock Eigenfaces vs. fisherfaces: recognition using class specific linear
+  projection.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  19(7):711--720, Jul 1997.
+
+\bibitem{comon1994independent}
+Pierre Comon.
+\newblock Independent component analysis, a new concept?
+\newblock {\em Signal processing}, 36(3):287--314, 1994.
+
+\bibitem{bartlett2001independent}
+Marian~Stewart Bartlett.
+\newblock Independent component representations for face recognition.
+\newblock In {\em Face Image Analysis by Unsupervised Learning}, pages 39--67.
+  Springer, 2001.
+
+\bibitem{duda2012pattern}
+Richard~O Duda, Peter~E Hart, and David~G Stork.
+\newblock {\em Pattern classification}.
+\newblock John Wiley \& Sons, 2012.
+
+\bibitem{4483511}
+J.~Wright, A.~Y. Yang, A.~Ganesh, S.~S. Sastry, and Y.~Ma.
+\newblock Robust face recognition via sparse representation.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  31(2):210--227, Feb 2009.
+
+\bibitem{5506092}
+I.~Naseem, R.~Togneri, and M.~Bennamoun.
+\newblock Linear regression for face recognition.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  32(11):2106--2112, Nov 2010.
+
+\bibitem{1177153}
+R.~Basri and D.~W. Jacobs.
+\newblock Lambertian reflectance and linear subspaces.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  25(2):218--233, Feb 2003.
+
+\bibitem{1114855}
+Jen-Tzung Chien and Chia-Chen Wu.
+\newblock Discriminant waveletfaces and nearest feature classifiers for face
+  recognition.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  24(12):1644--1649, Dec 2002.
+
+\bibitem{323814}
+A.~Pentland, B.~Moghaddam, and T.~Starner.
+\newblock View-based and modular eigenspaces for face recognition.
+\newblock In {\em 1994 Proceedings of IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 84--91, Jun 1994.
+
+\bibitem{1580480}
+S.~Fidler, D.~Skocaj, and A.~Leonardis.
+\newblock Combining reconstructive and discriminative subspace methods for
+  robust classification and regression by subsampling.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  28(3):337--350, March 2006.
+
+\bibitem{1261097}
+Jian Yang, D.~Zhang, A.~F. Frangi, and Jing yu~Yang.
+\newblock Two-dimensional pca: a new approach to appearance-based face
+  representation and recognition.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  26(1):131--137, Jan 2004.
+
+\bibitem{4359331}
+X.~Jiang, B.~Mandal, and A.~Kot.
+\newblock Eigenfeature regularization and extraction in face recognition.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  30(3):383--394, March 2008.
+
+\end{thebibliography}
